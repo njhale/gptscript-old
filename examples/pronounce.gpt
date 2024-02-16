@@ -1,0 +1,11 @@
+Tools: pronounce
+
+Pronounce GyptScript
+
+---
+Name: pronounce
+Args: word: A word to pronounc
+
+#!/bin/bash
+
+say -v Jester $WORD 
