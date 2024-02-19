@@ -13,11 +13,9 @@ calls. With GPTScript you can do just about anything like [plan a vacation](./ex
 Tools: sys.download, sys.exec, sys.remove
 
 Download https://www.sqlitetutorial.net/wp-content/uploads/2018/03/chinook.zip to a
-random file. Then expand the archive to a temporary location as there is a sqlite
-database in it.
+random file. Then expand the archive to a temporary location as there is a sqlite database in it.
 
 First inspect the schema of the database to understand the table structure.
-
 Form and run a SQL query to find the artist with the most number of albums and output
 the result of that.
 
@@ -44,7 +42,7 @@ brew install gptscript-ai/tap/gptscript
 #### Install Script (macOS and Linux):
 
 ```shell
-curl https://get.gptscript.ai/install.sh | sh
+curl -sfL https://get.gptscript.ai/install.sh | sh
 ```
 
 #### Manually
@@ -53,14 +51,14 @@ Download and install the archive for your platform and architecture from the [re
 
 ### 2. Get an API key from [OpenAI](https://platform.openai.com/api-keys).
 
-```shell
-export OPENAI_API_KEY="your-api-key"
+```console
+# export OPENAI_API_KEY="your-api-key"
 ```
 
 ### 3. Run Hello World
 
-```shell
-gptscript https://get.gptscript.ai/echo.gpt --input 'Hello, World!'
+```console
+# gptscript https://get.gptscript.ai/echo.gpt --input 'Hello, World!'
 
 OUTPUT:
 
