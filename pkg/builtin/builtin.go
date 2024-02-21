@@ -15,6 +15,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/BurntSushi/locker"
 	"github.com/gptscript-ai/gptscript/pkg/types"
 	"github.com/jaytaylor/html2text"
 )
@@ -242,6 +243,10 @@ func SysRead(ctx context.Context, env []string, input string) (string, error) {
 		return "", err
 	}
 
+	// Lock the file to prevent concurrent writes from other tool calls.
+	locker.RLock(params.Filename)
+	defer locker.RUnlock(params.Filename)
+
 	log.Debugf("Reading file %s", params.Filename)
 	data, err := os.ReadFile(params.Filename)
 	if err != nil {
@@ -259,6 +264,10 @@ func SysWrite(ctx context.Context, env []string, input string) (string, error) {
 	if err := json.Unmarshal([]byte(input), &params); err != nil {
 		return "", err
 	}
+
+	// Lock the file to prevent concurrent writes from other tool calls.
+	locker.Lock(params.Filename)
+	defer locker.Unlock(params.Filename)
 
 	data := []byte(params.Content)
 	msg := fmt.Sprintf("Wrote %d bytes to file %s", len(data), params.Filename)
@@ -409,6 +418,10 @@ func SysRemove(ctx context.Context, env []string, input string) (string, error) 
 	if err := json.Unmarshal([]byte(input), &params); err != nil {
 		return "", err
 	}
+
+	// Lock the file to prevent concurrent writes from other tool calls.
+	locker.Lock(params.Location)
+	defer locker.Unlock(params.Location)
 
 	return fmt.Sprintf("Removed file: %s", params.Location), os.Remove(params.Location)
 }
